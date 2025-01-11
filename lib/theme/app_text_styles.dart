@@ -37,4 +37,53 @@ class AppTextStyles {
     fontSize: 12,
     color: AppColors.appGrayColor,
   );
+  static const adTitle = TextStyle(
+    fontWeight: FontWeight.w500,
+    fontSize: 16,
+    color: AppColors.appWhiteColor,
+  );
+  static const adTitleItalic = TextStyle(
+    fontWeight: FontWeight.w500,
+    fontStyle: FontStyle.italic,
+    fontSize: 16,
+    color: AppColors.appWhiteColor,
+  );
+  static const adText = TextStyle(
+    fontWeight: FontWeight.w300,
+    fontSize: 14,
+    color: AppColors.appGrayColor,
+  );
+  static const adItemFireText = TextStyle(
+    fontWeight: FontWeight.w500,
+    fontSize: 14,
+    color: AppColors.blackColor,
+  );
+  static const adItemText = TextStyle(
+    fontWeight: FontWeight.w400,
+    fontSize: 16,
+    color: AppColors.appWhiteColor,
+  );
+  static const adButtonText = TextStyle(
+    fontWeight: FontWeight.w400,
+    fontSize: 16,
+    color: AppColors.appWhiteColor,
+  );
+  static const adBottomText = TextStyle(
+    fontWeight: FontWeight.w400,
+    fontSize: 16,
+    color: AppColors.appWhiteColor,
+  );
+
+  static TextStyle adItemSpecial = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.bold,
+    color: Colors.black,
+    shadows: [
+      Shadow(
+        color: AppColors.adItemSpecialTextShadowColor,
+        blurRadius: 5,
+        offset: const Offset(1, 1),
+      ),
+    ],
+  );
 }

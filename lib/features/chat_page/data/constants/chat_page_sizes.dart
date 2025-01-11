@@ -14,4 +14,10 @@ class ChatPageSizes {
   static const double temptationsLineRocketHeight = 21;
   static const double temptationsLineCloseSize = 16;
   static const double switcherImageHeight = 20;
+  static const double adCloseIconSize = 20;
+  static const double adGlassesPinkHeight = 68;
+  static const double adItemGlasses = 18;
+  static const double adItemSpecialHeight = 17;
+  static const double adItemSpecialWidth = 54;
+  static const double adBottomsheetHeight = 425;
 }

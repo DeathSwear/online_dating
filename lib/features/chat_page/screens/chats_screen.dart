@@ -5,6 +5,7 @@ import 'package:online_dating/features/chat_page/data/constants/chat_page_paddin
 import 'package:online_dating/features/chat_page/data/constants/chat_page_sizes.dart';
 import 'package:online_dating/features/chat_page/screens/chat_screen.dart';
 import 'package:online_dating/features/chat_page/widgets/chat_preview.dart';
+import 'package:online_dating/features/chat_page/widgets/incognito_bottomsheet.dart';
 import 'package:online_dating/features/chat_page/widgets/likes_preview.dart';
 import 'package:online_dating/features/chat_page/widgets/switcher.dart';
 import 'package:online_dating/theme/app_colors.dart';
@@ -82,24 +83,8 @@ class _ChatsScreenState extends State<ChatsScreen> {
     await showModalBottomSheet(
       context: context,
       enableDrag: false,
-      //backgroundColor: Colors.red,
       builder: (BuildContext context) {
-        return Container(
-          height: MediaQuery.of(context).size.height * 0.5,
-          decoration: const BoxDecoration(
-            color: Colors.blue,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(16),
-              topRight: Radius.circular(16),
-            ),
-          ),
-          child: Center(
-            child: Text(
-              "Это всплывающее окно",
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
-        );
+        return const IncognitoBottomsheet();
       },
     );
 

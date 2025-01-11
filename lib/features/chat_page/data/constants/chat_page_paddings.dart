@@ -9,4 +9,10 @@ class ChatPagePaddings {
   static const double textfieldInsideHorizontal = 12;
   static const double textfieldVertical = 6;
   static const double temptationLineRocketRight = 2.5;
+  static const double adGlassesPinkBottom = 22;
+  static const double adItemsBottom = 16;
+  static const double adItemHorizontalScale = 27 / 375;
+  static const double adItemVertical = 16;
+  static const double adItemGlassesBottom = 10;
+  static const double adItemGlassesLeft = 4;
 }
