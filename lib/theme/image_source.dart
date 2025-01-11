@@ -11,4 +11,6 @@ class ImageSource {
   static const String exampleAvatar5 = 'assets/png/example_avatar5.png';
   static const String exampleAvatar6 = 'assets/png/example_avatar6.png';
   static const String likesPreviewIcon = 'assets/png/likes_icon.png';
+  static const String rocketIcon = 'assets/png/rocket.png';
+  static const String chatImage = 'assets/png/chat_image.png';
 }

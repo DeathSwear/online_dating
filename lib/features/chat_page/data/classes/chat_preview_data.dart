@@ -3,9 +3,12 @@ class ChatPreviewData {
   final String lastMessageTime;
   final String lastMessage;
   final bool isRead;
-  ChatPreviewData(
-      {required this.image,
-      required this.lastMessageTime,
-      required this.lastMessage,
-      required this.isRead});
+  final int userId;
+  ChatPreviewData({
+    required this.image,
+    required this.lastMessageTime,
+    required this.lastMessage,
+    required this.isRead,
+    required this.userId,
+  });
 }

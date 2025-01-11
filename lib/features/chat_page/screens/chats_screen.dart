@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:online_dating/features/chat_page/data/constants/chat_page_data_example.dart';
 import 'package:online_dating/features/chat_page/data/constants/chat_page_paddings.dart';
 import 'package:online_dating/features/chat_page/data/constants/chat_page_sizes.dart';
+import 'package:online_dating/features/chat_page/screens/chat_screen.dart';
 import 'package:online_dating/features/chat_page/widgets/chat_preview.dart';
 import 'package:online_dating/features/chat_page/widgets/likes_preview.dart';
 import 'package:online_dating/features/chat_page/widgets/switcher.dart';
 import 'package:online_dating/theme/app_colors.dart';
+import 'package:online_dating/theme/app_strings.dart';
 import 'package:online_dating/theme/app_text_styles.dart';
-import 'package:online_dating/theme/image_source.dart';
 
 class ChatsScreen extends StatefulWidget {
   const ChatsScreen({super.key});
@@ -23,9 +23,34 @@ class _ChatsScreenState extends State<ChatsScreen> {
         .map((el) => SliverToBoxAdapter(
                 child: ChatPreview(
               data: el,
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).push(_createRoute(el.userId));
+              },
             )))
         .toList();
+  }
+
+  Route _createRoute(int userId) {
+    return PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) => ChatScreen(
+              userId: userId,
+            ),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          const begin = Offset(0.0, 1.0);
+          const end = Offset.zero;
+          const curve = Curves.ease;
+
+          final tween = Tween(begin: begin, end: end);
+          final curvedAnimation = CurvedAnimation(
+            parent: animation,
+            curve: curve,
+          );
+
+          return SlideTransition(
+            position: tween.animate(curvedAnimation),
+            child: child,
+          );
+        });
   }
 
   @override
@@ -45,9 +70,9 @@ class _ChatsScreenState extends State<ChatsScreen> {
               flexibleSpace: FlexibleSpaceBar(
                 collapseMode: CollapseMode.parallax,
                 background: Container(
-                  color: Colors.blue,
-                  child: Center(
-                    child: Text('Место для рекламы'),
+                  color: AppColors.missedAD,
+                  child: const Center(
+                    child: Text(AppStrings.placeForAD),
                   ),
                 ),
               ),
@@ -70,7 +95,7 @@ class _ChatsScreenState extends State<ChatsScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'ЧАТЫ',
+                          AppStrings.chats,
                           style: AppTextStyles.chatsTitle,
                         ),
                         Switcher(),
@@ -81,10 +106,8 @@ class _ChatsScreenState extends State<ChatsScreen> {
               ),
             ),
             SliverToBoxAdapter(
-              child: LikesPreview(
-                  text: '44 человека тебя лайкнули',
-                  isRead: false,
-                  onPressed: () {}),
+              child:
+                  LikesPreview(likesCount: 44, isRead: false, onPressed: () {}),
             ),
             ...getChatPreviews(),
           ],

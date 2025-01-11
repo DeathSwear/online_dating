@@ -9,4 +9,8 @@ class AppColors {
   static const Color navActiveIconColor = Color.fromRGBO(242, 201, 76, 1);
   static const Color navIconColor = Color.fromRGBO(116, 70, 172, 1);
   static const Color basicBackgroundColor = Color.fromRGBO(33, 32, 32, 1);
+  static const Color temptationBackgroundColor =
+      Color.fromRGBO(116, 70, 172, 1);
+  static const Color missedAD = Color.fromRGBO(217, 217, 217, 1);
+  static const Color appGrayColor = Color.fromRGBO(141, 141, 141, 1);
 }

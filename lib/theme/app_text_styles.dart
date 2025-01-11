@@ -27,4 +27,14 @@ class AppTextStyles {
     fontSize: 14,
     color: AppColors.appWhiteColor,
   );
+  static const temptation = TextStyle(
+    fontWeight: FontWeight.w300,
+    fontSize: 13,
+    color: AppColors.appWhiteColor,
+  );
+  static const haveNoMessages = TextStyle(
+    fontWeight: FontWeight.w300,
+    fontSize: 12,
+    color: AppColors.appGrayColor,
+  );
 }

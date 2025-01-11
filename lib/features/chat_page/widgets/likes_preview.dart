@@ -2,16 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:online_dating/features/chat_page/data/constants/chat_page_paddings.dart';
 import 'package:online_dating/features/chat_page/data/constants/chat_page_sizes.dart';
 import 'package:online_dating/theme/app_colors.dart';
+import 'package:online_dating/theme/app_strings.dart';
 import 'package:online_dating/theme/app_text_styles.dart';
 import 'package:online_dating/theme/image_source.dart';
 
 class LikesPreview extends StatefulWidget {
   const LikesPreview(
       {super.key,
-      required this.text,
+      required this.likesCount,
       required this.isRead,
       required this.onPressed});
-  final String text;
+  final int likesCount;
   final bool isRead;
   final VoidCallback onPressed;
 
@@ -53,7 +54,7 @@ class _LikesPreviewState extends State<LikesPreview> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    widget.text,
+                    '${widget.likesCount} ${AppStrings.peoplseLikedYou}',
                     style: AppTextStyles.chatsLikesCount,
                   ),
                 ],

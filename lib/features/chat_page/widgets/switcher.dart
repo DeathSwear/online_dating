@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:online_dating/features/chat_page/data/constants/chat_page_other.dart';
 import 'package:online_dating/features/chat_page/data/constants/chat_page_paddings.dart';
+import 'package:online_dating/features/chat_page/data/constants/chat_page_sizes.dart';
+import 'package:online_dating/theme/app_strings.dart';
 import 'package:online_dating/theme/app_text_styles.dart';
 import 'package:online_dating/theme/image_source.dart';
 
@@ -31,14 +33,14 @@ class _SwitcherState extends State<Switcher> {
             child: Row(
               children: [
                 Text(
-                  'OFF',
+                  AppStrings.switcherOFF,
                   style: AppTextStyles.chatsTitleSwitch,
                 ),
                 SizedBox(
                   width: ChatPagePaddings.switcherInside,
                 ),
                 Text(
-                  'ON',
+                  AppStrings.switcherON,
                   style: AppTextStyles.chatsTitleSwitch,
                 ),
               ],
@@ -46,14 +48,14 @@ class _SwitcherState extends State<Switcher> {
           ),
         ),
         AnimatedPositioned(
-          duration: const Duration(milliseconds: 300),
+          duration: ChatPageOther.switcherDuration,
           curve: Curves.easeInOut,
           left: isOn
               ? ChatPageOther.switcherStartPos
               : ChatPageOther.switcherEndPos,
           child: SvgPicture.asset(
             ImageSource.chatSwitch,
-            height: 20,
+            height: ChatPageSizes.switcherImageHeight,
             fit: BoxFit.cover,
           ),
         ),
