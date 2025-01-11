@@ -23,52 +23,57 @@ class LikesPreview extends StatefulWidget {
 class _LikesPreviewState extends State<LikesPreview> {
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: () {
-          setState(() {});
-          widget.onPressed();
-        },
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: ChatPagePaddings.basicHorizontal,
-            vertical: ChatPagePaddings.chatPreviewVertical,
-          ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(50),
-                child: Image.asset(
-                  ImageSource.likesPreviewIcon,
-                  height: ChatPageSizes.chatPreviewIconSize,
-                  width: ChatPageSizes.chatPreviewIconSize,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              const SizedBox(
-                width: ChatPagePaddings.chatPreviewIconRight,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '${widget.likesCount} ${AppStrings.peoplseLikedYou}',
-                    style: AppTextStyles.chatsLikesCount,
+    return DecoratedBox(
+      decoration: const BoxDecoration(
+        color: AppColors.basicBackgroundColor,
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: () {
+            setState(() {});
+            widget.onPressed();
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: ChatPagePaddings.basicHorizontal,
+              vertical: ChatPagePaddings.chatPreviewVertical,
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(50),
+                  child: Image.asset(
+                    ImageSource.likesPreviewIcon,
+                    height: ChatPageSizes.chatPreviewIconSize,
+                    width: ChatPageSizes.chatPreviewIconSize,
+                    fit: BoxFit.cover,
                   ),
-                ],
-              ),
-              const Spacer(),
-              if (!widget.isRead)
-                Container(
-                  height: ChatPageSizes.unReadDotSize,
-                  width: ChatPageSizes.unReadDotSize,
-                  decoration: BoxDecoration(
-                      color: AppColors.appWhiteColor,
-                      borderRadius: BorderRadius.circular(50)),
                 ),
-            ],
+                const SizedBox(
+                  width: ChatPagePaddings.chatPreviewIconRight,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '${widget.likesCount} ${AppStrings.peoplseLikedYou}',
+                      style: AppTextStyles.chatsLikesCount,
+                    ),
+                  ],
+                ),
+                const Spacer(),
+                if (!widget.isRead)
+                  Container(
+                    height: ChatPageSizes.unReadDotSize,
+                    width: ChatPageSizes.unReadDotSize,
+                    decoration: BoxDecoration(
+                        color: AppColors.appWhiteColor,
+                        borderRadius: BorderRadius.circular(50)),
+                  ),
+              ],
+            ),
           ),
         ),
       ),

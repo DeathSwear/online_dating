@@ -13,4 +13,5 @@ class AppColors {
       Color.fromRGBO(116, 70, 172, 1);
   static const Color missedAD = Color.fromRGBO(217, 217, 217, 1);
   static const Color appGrayColor = Color.fromRGBO(141, 141, 141, 1);
+  static const Color appPurpleColor = Color.fromRGBO(31, 9, 58, 1);
 }

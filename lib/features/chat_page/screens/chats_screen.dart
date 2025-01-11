@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:online_dating/features/chat_page/data/constants/chat_page_data_example.dart';
+import 'package:online_dating/features/chat_page/data/constants/chat_page_other.dart';
 import 'package:online_dating/features/chat_page/data/constants/chat_page_paddings.dart';
 import 'package:online_dating/features/chat_page/data/constants/chat_page_sizes.dart';
 import 'package:online_dating/features/chat_page/screens/chat_screen.dart';
@@ -18,16 +19,35 @@ class ChatsScreen extends StatefulWidget {
 }
 
 class _ChatsScreenState extends State<ChatsScreen> {
-  List<Widget> getChatPreviews() {
+  List<Widget> getChatPreviewsChats() {
     return ChatPageDataExample.chatPreviewData
-        .map((el) => SliverToBoxAdapter(
-                child: ChatPreview(
+        .map((el) => ChatPreview(
               data: el,
               onPressed: () {
                 Navigator.of(context).push(_createRoute(el.userId));
               },
-            )))
+            ))
         .toList();
+  }
+
+  Widget getChatPreviews() {
+    return SliverToBoxAdapter(
+      child: AnimatedPadding(
+        duration: ChatPageOther.adOpenDuration,
+        padding: EdgeInsets.symmetric(
+          horizontal:
+              isAdOpenned ? MediaQuery.of(context).size.width * 0.05 : 0,
+        ),
+        child: DecoratedBox(
+          decoration: const BoxDecoration(
+            color: AppColors.basicBackgroundColor,
+          ),
+          child: Column(
+            children: [...getChatPreviewsChats()],
+          ),
+        ),
+      ),
+    );
   }
 
   Route _createRoute(int userId) {
@@ -53,11 +73,48 @@ class _ChatsScreenState extends State<ChatsScreen> {
         });
   }
 
+  bool isAdOpenned = false;
+  void showAD(BuildContext context) async {
+    setState(() {
+      isAdOpenned = true;
+    });
+
+    await showModalBottomSheet(
+      context: context,
+      enableDrag: false,
+      //backgroundColor: Colors.red,
+      builder: (BuildContext context) {
+        return Container(
+          height: MediaQuery.of(context).size.height * 0.5,
+          decoration: const BoxDecoration(
+            color: Colors.blue,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(16),
+              topRight: Radius.circular(16),
+            ),
+          ),
+          child: Center(
+            child: Text(
+              "Это всплывающее окно",
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+        );
+      },
+    );
+
+    setState(() {
+      isAdOpenned = false;
+    });
+  }
+
+  int countOfIncognito = 2;
+
   @override
   Widget build(BuildContext context) {
     return Container(
         decoration: BoxDecoration(
-            color: AppColors.basicBackgroundColor,
+            color: AppColors.appPurpleColor,
             border: Border.all(color: AppColors.basicBorderColor, width: 1)),
         child: CustomScrollView(
           slivers: [
@@ -79,37 +136,55 @@ class _ChatsScreenState extends State<ChatsScreen> {
               bottom: PreferredSize(
                 preferredSize:
                     const Size(double.infinity, ChatPageSizes.appBarMinHeight),
-                child: Container(
-                  decoration: const BoxDecoration(
-                    color: AppColors.basicBackgroundColor,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(8.0),
-                      topRight: Radius.circular(8.0),
-                    ),
+                child: AnimatedPadding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: isAdOpenned
+                        ? MediaQuery.of(context).size.width * 0.05
+                        : 0,
                   ),
-                  height: ChatPageSizes.appBarMinHeight,
-                  child: const Padding(
-                    padding:
-                        EdgeInsets.only(left: ChatPagePaddings.basicHorizontal),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          AppStrings.chats,
-                          style: AppTextStyles.chatsTitle,
-                        ),
-                        Switcher(),
-                      ],
+                  duration: ChatPageOther.adOpenDuration,
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      color: AppColors.basicBackgroundColor,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(8.0),
+                        topRight: Radius.circular(8.0),
+                      ),
+                    ),
+                    height: ChatPageSizes.appBarMinHeight,
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          left: ChatPagePaddings.basicHorizontal),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            AppStrings.chats,
+                            style: AppTextStyles.chatsTitle,
+                          ),
+                          Switcher(
+                            lastestCount: countOfIncognito,
+                            onIncognitoEnds: () => showAD(context),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
             SliverToBoxAdapter(
-              child:
-                  LikesPreview(likesCount: 44, isRead: false, onPressed: () {}),
+              child: AnimatedPadding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: isAdOpenned
+                        ? MediaQuery.of(context).size.width * 0.05
+                        : 0,
+                  ),
+                  duration: ChatPageOther.adOpenDuration,
+                  child: LikesPreview(
+                      likesCount: 44, isRead: false, onPressed: () {})),
             ),
-            ...getChatPreviews(),
+            getChatPreviews(),
           ],
         ));
   }

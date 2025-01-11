@@ -8,25 +8,46 @@ import 'package:online_dating/theme/app_text_styles.dart';
 import 'package:online_dating/theme/image_source.dart';
 
 class Switcher extends StatefulWidget {
-  const Switcher({super.key});
-
+  const Switcher(
+      {super.key, required this.lastestCount, required this.onIncognitoEnds});
+  final int lastestCount;
+  final VoidCallback onIncognitoEnds;
   @override
   State<Switcher> createState() => _SwitcherState();
 }
 
 class _SwitcherState extends State<Switcher> {
   bool isOn = false;
+  int lastestCount = 0;
+  void tapSwitcher() async {
+    if ((lastestCount < 1) && (!isOn)) {
+      widget.onIncognitoEnds();
+      return;
+    }
+    if (isOn) {
+      setState(() {
+        isOn = !isOn;
+        lastestCount--;
+      });
+    } else {
+      setState(() {
+        isOn = !isOn;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    lastestCount = widget.lastestCount;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         GestureDetector(
-          onTap: () {
-            setState(() {
-              isOn = !isOn;
-            });
-          },
+          onTap: tapSwitcher,
           child: const Padding(
             padding: EdgeInsets.symmetric(
                 horizontal: ChatPagePaddings.basicHorizontal),
@@ -54,7 +75,9 @@ class _SwitcherState extends State<Switcher> {
               ? ChatPageOther.switcherStartPos
               : ChatPageOther.switcherEndPos,
           child: SvgPicture.asset(
-            ImageSource.chatSwitch,
+            lastestCount > 0
+                ? ImageSource.chatSwitch
+                : ImageSource.chatSwitchNo,
             height: ChatPageSizes.switcherImageHeight,
             fit: BoxFit.cover,
           ),
