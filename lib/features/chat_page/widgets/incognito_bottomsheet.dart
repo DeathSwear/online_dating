@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:online_dating/features/chat_page/data/constants/chat_page_data_example.dart';
 import 'package:online_dating/features/chat_page/data/constants/chat_page_paddings.dart';
 import 'package:online_dating/features/chat_page/data/constants/chat_page_sizes.dart';
 import 'package:online_dating/features/chat_page/widgets/ad_button.dart';
 import 'package:online_dating/features/chat_page/widgets/ad_incognito_item.dart';
 import 'package:online_dating/theme/app_colors.dart';
+import 'package:online_dating/theme/app_strings.dart';
 import 'package:online_dating/theme/app_text_styles.dart';
 import 'package:online_dating/theme/image_source.dart';
 
@@ -16,12 +18,12 @@ class IncognitoBottomsheet extends StatefulWidget {
 }
 
 class _IncognitoBottomsheetState extends State<IncognitoBottomsheet> {
-  int chosenVariant = 0;
+  int chosenVariant = -1;
 
   void onItemTap(int id) {
     if (chosenVariant == id) {
       setState(() {
-        chosenVariant = 0;
+        chosenVariant = -1;
       });
       return;
     }
@@ -74,22 +76,22 @@ class _IncognitoBottomsheetState extends State<IncognitoBottomsheet> {
               ),
               RichText(
                   text: const TextSpan(
-                text: 'РЕЖИМ ',
+                text: AppStrings.adTiTleSpan1,
                 style: AppTextStyles.adTitle,
                 children: [
                   TextSpan(
-                    text: 'ИНКОГНИТО',
+                    text: AppStrings.adTiTleSpan2,
                     style: AppTextStyles.adTitleItalic,
                   ),
                   TextSpan(
-                    text: ' НА 24 ЧАСА',
+                    text: AppStrings.adTiTleSpan3,
                     style: AppTextStyles.adTitle,
                   ),
                 ],
               )),
               const Spacer(),
               const Text(
-                'Стань невидимкой в ленте и чатах, скрой объявление и наслаждайся <Space> незамеченным',
+                AppStrings.adText,
                 softWrap: true,
                 style: AppTextStyles.adText,
               ),
@@ -98,40 +100,43 @@ class _IncognitoBottomsheetState extends State<IncognitoBottomsheet> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   AdIncognitoItem(
-                    count: 1,
-                    price: '99 P',
-                    id: 1,
-                    isChosen: chosenVariant == 1 ? true : false,
+                    data: ChatPageDataExample.adItemData[0],
+                    isChosen:
+                        chosenVariant == ChatPageDataExample.adItemData[0].id
+                            ? true
+                            : false,
                     onPressed: onItemTap,
                   ),
                   AdIncognitoItem(
-                      count: 3,
-                      price: '199 P',
-                      id: 2,
-                      isChosen: chosenVariant == 2 ? true : false,
-                      onPressed: onItemTap,
-                      specialText: 'Хит'),
+                    data: ChatPageDataExample.adItemData[0],
+                    isChosen:
+                        chosenVariant == ChatPageDataExample.adItemData[0].id
+                            ? true
+                            : false,
+                    onPressed: onItemTap,
+                  ),
                   AdIncognitoItem(
-                      count: 7,
-                      price: '399 P',
-                      id: 3,
-                      isChosen: chosenVariant == 3 ? true : false,
-                      onPressed: onItemTap,
-                      specialText: '-42%'),
+                    data: ChatPageDataExample.adItemData[0],
+                    isChosen:
+                        chosenVariant == ChatPageDataExample.adItemData[0].id
+                            ? true
+                            : false,
+                    onPressed: onItemTap,
+                  ),
                 ],
               ),
               const SizedBox(
                 height: ChatPagePaddings.adItemsBottom,
               ),
               AdButton(
-                  text: 'Купить',
+                  text: AppStrings.adButtonText,
                   onPressed: () {},
-                  isActive: chosenVariant != 0 ? true : false),
+                  isActive: chosenVariant != -1 ? true : false),
               const Spacer(),
               TextButton(
                   onPressed: () {},
                   child: const Text(
-                    'УСЛОВИЯ И ПОЛОЖЕНИЯ',
+                    AppStrings.adBottomText,
                     style: AppTextStyles.adBottomText,
                   ))
             ],

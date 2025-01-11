@@ -1,3 +1,4 @@
+import 'package:online_dating/features/chat_page/data/classes/ad_item_data.dart';
 import 'package:online_dating/features/chat_page/data/classes/chat_preview_data.dart';
 import 'package:online_dating/theme/image_source.dart';
 
@@ -87,5 +88,11 @@ class ChatPageDataExample {
       isRead: false,
       userId: 11,
     ),
+  ];
+
+  static List<AdItemData> adItemData = [
+    AdItemData(count: 1, price: '99 P', id: 1),
+    AdItemData(count: 3, price: '199 P', specialText: 'Хит', id: 2),
+    AdItemData(count: 7, price: '399 P', specialText: '-42%', id: 3),
   ];
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:online_dating/features/chat_page/data/classes/ad_item_data.dart';
 import 'package:online_dating/features/chat_page/data/constants/chat_page_paddings.dart';
 import 'package:online_dating/features/chat_page/data/constants/chat_page_sizes.dart';
 import 'package:online_dating/features/chat_page/widgets/ad_item_special.dart';
@@ -10,23 +11,17 @@ import 'package:online_dating/theme/image_source.dart';
 class AdIncognitoItem extends StatelessWidget {
   const AdIncognitoItem(
       {super.key,
-      required this.count,
-      required this.price,
       required this.isChosen,
       required this.onPressed,
-      this.specialText,
-      required this.id});
-  final String price;
-  final String? specialText;
-  final int count;
+      required this.data});
   final bool isChosen;
   final Function(int) onPressed;
-  final int id;
+  final AdItemData data;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => onPressed(id),
+      onTap: () => onPressed(data.id),
       child: Stack(
         children: [
           Padding(
@@ -49,7 +44,7 @@ class AdIncognitoItem extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        '$count',
+                        '${data.count}',
                         style: AppTextStyles.adItemText,
                       ),
                       const SizedBox(
@@ -66,20 +61,20 @@ class AdIncognitoItem extends StatelessWidget {
                     height: ChatPagePaddings.adItemGlassesBottom,
                   ),
                   Text(
-                    price,
+                    data.price,
                     style: AppTextStyles.adItemText,
                   ),
                 ],
               ),
             ),
           ),
-          if (specialText != null)
+          if (data.specialText != null)
             Positioned(
                 top: 0,
                 left: MediaQuery.of(context).size.width *
                         ChatPagePaddings.adItemHorizontalScale +
                     4,
-                child: AdItemSpecial(text: specialText!)),
+                child: AdItemSpecial(text: data.specialText!)),
         ],
       ),
     );
