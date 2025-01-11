@@ -57,6 +57,7 @@ class _ChatScreenState extends State<ChatScreen> {
             slivers: [
               SliverAppBar(
                 backgroundColor: AppColors.basicBackgroundColor,
+                foregroundColor: AppColors.appWhiteColor,
                 pinned: true,
                 floating: true,
                 snap: true,

@@ -108,17 +108,17 @@ class _IncognitoBottomsheetState extends State<IncognitoBottomsheet> {
                     onPressed: onItemTap,
                   ),
                   AdIncognitoItem(
-                    data: ChatPageDataExample.adItemData[0],
+                    data: ChatPageDataExample.adItemData[1],
                     isChosen:
-                        chosenVariant == ChatPageDataExample.adItemData[0].id
+                        chosenVariant == ChatPageDataExample.adItemData[1].id
                             ? true
                             : false,
                     onPressed: onItemTap,
                   ),
                   AdIncognitoItem(
-                    data: ChatPageDataExample.adItemData[0],
+                    data: ChatPageDataExample.adItemData[2],
                     isChosen:
-                        chosenVariant == ChatPageDataExample.adItemData[0].id
+                        chosenVariant == ChatPageDataExample.adItemData[2].id
                             ? true
                             : false,
                     onPressed: onItemTap,
