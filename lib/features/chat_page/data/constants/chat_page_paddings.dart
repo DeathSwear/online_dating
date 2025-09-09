@@ -7,7 +7,6 @@ class ChatPagePaddings {
   static const double temptationLineBottom = 16;
   static const double haveNoMessagesTop = 51;
   static const double textfieldInsideHorizontal = 12;
-  static const double textfieldVertical = 6;
   static const double temptationLineRocketRight = 2.5;
   static const double adGlassesPinkBottom = 22;
   static const double adItemsBottom = 16;

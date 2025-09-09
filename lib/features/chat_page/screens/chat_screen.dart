@@ -12,6 +12,7 @@ import 'package:online_dating/theme/app_text_styles.dart';
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key, required this.userId});
   final int userId;
+
   @override
   State<ChatScreen> createState() => _ChatScreenState();
 }
@@ -20,15 +21,13 @@ class _ChatScreenState extends State<ChatScreen> {
   bool isZero = Random().nextBool();
 
   List<Widget> getMessageExample() {
-    if (isZero) {
-      return [];
-    }
+    if (isZero) return [];
+
     List<Widget> temp = [];
     for (int i = 0; i < 30; i++) {
       bool side = Random().nextBool();
       temp.add(
-        SliverToBoxAdapter(
-            child: Padding(
+        Padding(
           padding: const EdgeInsets.all(8.0),
           child: Align(
             alignment: side ? Alignment.centerLeft : Alignment.centerRight,
@@ -40,110 +39,151 @@ class _ChatScreenState extends State<ChatScreen> {
               height: 60,
             ),
           ),
-        )),
+        ),
       );
     }
     return temp;
   }
 
+  List<Widget> chat = [];
+
+  @override
+  void initState() {
+    super.initState();
+    updateChat();
+  }
+
+  void updateChat() {
+    setState(() {
+      chat = getMessageExample();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
+      resizeToAvoidBottomInset: true,
+      body: SafeArea(
+        top: false,
+        child: Container(
           decoration: BoxDecoration(
-              color: AppColors.basicBackgroundColor,
-              border: Border.all(color: AppColors.basicBorderColor, width: 1)),
-          child: CustomScrollView(
-            slivers: [
-              SliverAppBar(
-                backgroundColor: AppColors.basicBackgroundColor,
-                foregroundColor: AppColors.appWhiteColor,
-                pinned: true,
-                floating: true,
-                snap: true,
-                automaticallyImplyLeading: false,
-                toolbarHeight: ChatPageSizes.appbarColapsedHeight,
-                titleSpacing: 0,
-                collapsedHeight: ChatPageSizes.appbarColapsedHeight,
-                expandedHeight: ChatPageSizes.appBarMaxHeight -
-                    ChatPageSizes.appBarMinHeight +
-                    ChatPageSizes.littleAppbarBottomHeight,
-                title: Row(
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.keyboard_arrow_left,
-                          color: AppColors.appWhiteColor),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                    CircleAvatar(
-                      radius: ChatPageSizes.chatUserImageRadius,
-                      backgroundImage: AssetImage(ChatPageDataExample
-                          .chatPreviewData[widget.userId].image),
-                    ),
-                    const Spacer(),
-                    IconButton(
-                      icon: const Icon(Icons.more_vert,
-                          color: AppColors.appWhiteColor),
-                      onPressed: () {},
-                    ),
-                  ],
-                ),
-                flexibleSpace: FlexibleSpaceBar(
-                  collapseMode: CollapseMode.parallax,
-                  background: Container(
-                    color: AppColors.missedAD,
-                    child: const Stack(
-                      children: [
-                        Center(
-                          child: Text(AppStrings.placeForAD),
+            color: AppColors.basicBackgroundColor,
+            border: Border.all(color: AppColors.basicBorderColor, width: 1),
+          ),
+          child: Column(
+            children: [
+              Expanded(
+                child: CustomScrollView(
+                  slivers: [
+                    SliverAppBar(
+                      backgroundColor: AppColors.basicBackgroundColor,
+                      foregroundColor: AppColors.appWhiteColor,
+                      shadowColor: Colors.transparent,
+                      surfaceTintColor: Colors.transparent,
+                      pinned: true,
+                      floating: true,
+                      snap: true,
+                      automaticallyImplyLeading: false,
+                      toolbarHeight: ChatPageSizes.appbarColapsedHeight,
+                      titleSpacing: 0,
+                      collapsedHeight: ChatPageSizes.appbarColapsedHeight,
+                      expandedHeight: ChatPageSizes.appBarMaxHeight -
+                          ChatPageSizes.appBarMinHeight +
+                          ChatPageSizes.littleAppbarBottomHeight,
+                      title: Row(
+                        children: [
+                          IconButton(
+                            icon: const Icon(
+                              Icons.keyboard_arrow_left,
+                              color: AppColors.appWhiteColor,
+                            ),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                          CircleAvatar(
+                            radius: ChatPageSizes.chatUserImageRadius,
+                            backgroundImage: AssetImage(
+                              ChatPageDataExample
+                                  .chatPreviewData[widget.userId].image,
+                            ),
+                          ),
+                          const Spacer(),
+                          IconButton(
+                            icon: const Icon(
+                              Icons.more_vert,
+                              color: AppColors.appWhiteColor,
+                            ),
+                            onPressed: () {},
+                          ),
+                        ],
+                      ),
+                      flexibleSpace: FlexibleSpaceBar(
+                        collapseMode: CollapseMode.parallax,
+                        background: Container(
+                          color: AppColors.missedAD,
+                          child: const Stack(
+                            children: [
+                              Center(
+                                child: Text(AppStrings.placeForAD),
+                              ),
+                              Align(
+                                alignment: Alignment.bottomCenter,
+                                child: Padding(
+                                  padding: EdgeInsets.only(
+                                    bottom:
+                                        ChatPagePaddings.temptationLineBottom,
+                                  ),
+                                  child: TemptationLine(count: 2),
+                                ),
+                              )
+                            ],
+                          ),
                         ),
-                        Align(
-                          alignment: Alignment.bottomCenter,
+                      ),
+                      bottom: PreferredSize(
+                        preferredSize: const Size(
+                          double.infinity,
+                          ChatPageSizes.littleAppbarBottomHeight,
+                        ),
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            color: AppColors.basicBackgroundColor,
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(8.0),
+                              topRight: Radius.circular(8.0),
+                            ),
+                          ),
+                          height: ChatPageSizes.littleAppbarBottomHeight,
+                        ),
+                      ),
+                    ),
+                    SliverList.list(
+                      children: chat,
+                    ),
+                    if (isZero)
+                      const SliverToBoxAdapter(
+                        child: Align(
+                          alignment: Alignment.topCenter,
                           child: Padding(
                             padding: EdgeInsets.only(
-                                bottom: ChatPagePaddings.temptationLineBottom),
-                            child: TemptationLine(count: 2),
+                              top: ChatPagePaddings.haveNoMessagesTop,
+                            ),
+                            child: Text(
+                              AppStrings.startMessaging,
+                              style: AppTextStyles.haveNoMessages,
+                            ),
                           ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-                bottom: PreferredSize(
-                  preferredSize: const Size(
-                      double.infinity, ChatPageSizes.littleAppbarBottomHeight),
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      color: AppColors.basicBackgroundColor,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(8.0),
-                        topRight: Radius.circular(8.0),
+                        ),
                       ),
-                    ),
-                    height: ChatPageSizes.littleAppbarBottomHeight,
-                  ),
+                  ],
                 ),
               ),
-              ...getMessageExample(),
-              if (isZero)
-                const SliverToBoxAdapter(
-                  child: Align(
-                    alignment: Alignment.topCenter,
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                          top: ChatPagePaddings.haveNoMessagesTop),
-                      child: Text(
-                        AppStrings.startMessaging,
-                        style: AppTextStyles.haveNoMessages,
-                      ),
-                    ),
-                  ),
-                )
+              const ChatBottom(),
             ],
-          )),
-      bottomSheet: const ChatBottom(),
+          ),
+        ),
+      ),
     );
   }
 }

@@ -16,4 +16,6 @@ class ImageSource {
   static const String chatSwitchNo = 'assets/svg/switch_no.svg';
   static const String glassesPink = 'assets/svg/glasses_pink.svg';
   static const String glassesYellow = 'assets/svg/glasses_yellow.svg';
+  static const String chatMicrophone = 'assets/svg/microphone.svg';
+  static const String chatAdd = 'assets/svg/add.svg';
 }
