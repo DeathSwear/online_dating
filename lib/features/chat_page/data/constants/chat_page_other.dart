@@ -4,4 +4,5 @@ class ChatPageOther {
   static const Duration temptationDuration = Duration(milliseconds: 300);
   static const Duration switcherDuration = Duration(milliseconds: 300);
   static const Duration adOpenDuration = Duration(milliseconds: 200);
+  static const Duration headerOpenDuration = Duration(milliseconds: 200);
 }

@@ -1,13 +1,12 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:online_dating/features/chat_page/data/constants/chat_page_data_example.dart';
+import 'package:online_dating/features/chat_page/data/constants/chat_page_other.dart';
 import 'package:online_dating/features/chat_page/data/constants/chat_page_paddings.dart';
 import 'package:online_dating/features/chat_page/data/constants/chat_page_sizes.dart';
 import 'package:online_dating/features/chat_page/widgets/chat_bottom.dart';
 import 'package:online_dating/features/chat_page/widgets/temptation_line.dart';
 import 'package:online_dating/theme/app_colors.dart';
-import 'package:online_dating/theme/app_strings.dart';
-import 'package:online_dating/theme/app_text_styles.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key, required this.userId});
@@ -45,58 +44,70 @@ class _ChatScreenState extends State<ChatScreen> {
     return temp;
   }
 
-  List<Widget> chat = [];
-
   @override
   void initState() {
     super.initState();
-    updateChat();
+    getMessages();
   }
 
-  void updateChat() {
+  List<Widget> messages = [];
+  void getMessages() {
     setState(() {
-      chat = getMessageExample();
+      messages = getMessageExample();
     });
+  }
+
+  bool _showHeader = true;
+  bool _showBar = false;
+
+  void swipeHeader(details) async {
+    int sensitivity = 3;
+    if (details.delta.dy > sensitivity) {
+      if (!_showHeader) {
+        setState(() {
+          _showHeader = true;
+          _showBar = false;
+        });
+      }
+    } else if (details.delta.dy < -sensitivity) {
+      if (_showHeader) {
+        setState(() {
+          _showHeader = false;
+        });
+        Future.delayed(ChatPageOther.headerOpenDuration, () {
+          setState(() {
+            _showBar = true;
+          });
+        });
+      }
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      body: SafeArea(
-        top: false,
-        child: Container(
-          decoration: BoxDecoration(
-            color: AppColors.basicBackgroundColor,
-            border: Border.all(color: AppColors.basicBorderColor, width: 1),
-          ),
+      body: Container(
+        decoration: const BoxDecoration(
+          color: AppColors.missedAD,
+        ),
+        child: SafeArea(
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Expanded(
-                child: CustomScrollView(
-                  slivers: [
-                    SliverAppBar(
-                      backgroundColor: AppColors.basicBackgroundColor,
-                      foregroundColor: AppColors.appWhiteColor,
-                      shadowColor: Colors.transparent,
-                      surfaceTintColor: Colors.transparent,
-                      pinned: true,
-                      floating: true,
-                      snap: true,
-                      automaticallyImplyLeading: false,
-                      toolbarHeight: ChatPageSizes.appbarColapsedHeight,
-                      titleSpacing: 0,
-                      collapsedHeight: ChatPageSizes.appbarColapsedHeight,
-                      expandedHeight: ChatPageSizes.appBarMaxHeight -
-                          ChatPageSizes.appBarMinHeight +
-                          ChatPageSizes.littleAppbarBottomHeight,
-                      title: Row(
+              GestureDetector(
+                onVerticalDragUpdate: swipeHeader,
+                child: Container(
+                  color: Colors.transparent,
+                  height: ChatPageSizes.appBarMaxHeight,
+                  width: double.infinity,
+                  child: Column(
+                    children: [
+                      Row(
                         children: [
                           IconButton(
-                            icon: const Icon(
-                              Icons.keyboard_arrow_left,
-                              color: AppColors.appWhiteColor,
-                            ),
+                            icon: const Icon(Icons.keyboard_arrow_left,
+                                color: AppColors.appWhiteColor),
                             onPressed: () {
                               Navigator.of(context).pop();
                             },
@@ -110,73 +121,87 @@ class _ChatScreenState extends State<ChatScreen> {
                           ),
                           const Spacer(),
                           IconButton(
-                            icon: const Icon(
-                              Icons.more_vert,
-                              color: AppColors.appWhiteColor,
-                            ),
+                            icon: const Icon(Icons.more_vert,
+                                color: AppColors.appWhiteColor),
                             onPressed: () {},
                           ),
                         ],
                       ),
-                      flexibleSpace: FlexibleSpaceBar(
-                        collapseMode: CollapseMode.parallax,
-                        background: Container(
-                          color: AppColors.missedAD,
-                          child: const Stack(
-                            children: [
-                              Center(
-                                child: Text(AppStrings.placeForAD),
-                              ),
-                              Align(
-                                alignment: Alignment.bottomCenter,
-                                child: Padding(
-                                  padding: EdgeInsets.only(
-                                    bottom:
-                                        ChatPagePaddings.temptationLineBottom,
-                                  ),
-                                  child: TemptationLine(count: 2),
-                                ),
-                              )
-                            ],
+                      const SizedBox(
+                        height: ChatPagePaddings.temptationTop,
+                      ),
+                      const TemptationLine(count: 2),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+      bottomSheet: BottomSheet(
+        elevation: 10,
+        enableDrag: false,
+        onClosing: () {},
+        builder: (BuildContext ctx) => AnimatedContainer(
+          duration: ChatPageOther.headerOpenDuration,
+          width: double.infinity,
+          height: _showHeader
+              ? MediaQuery.of(context).size.height -
+                  ChatPageSizes.appBarMaxHeight
+              : MediaQuery.of(context).size.height,
+          decoration: BoxDecoration(
+            color: AppColors.basicBackgroundColor,
+            border: Border.all(color: AppColors.basicBorderColor, width: 1),
+            borderRadius: _showHeader
+                ? const BorderRadius.only(
+                    topLeft: Radius.circular(8),
+                    topRight: Radius.circular(8),
+                  )
+                : null,
+          ),
+          child: Column(
+            children: [
+              if (_showBar)
+                GestureDetector(
+                  onVerticalDragUpdate: swipeHeader,
+                  child: Container(
+                    margin: const EdgeInsets.only(
+                        top: ChatPagePaddings.topSafeView),
+                    color: Colors.transparent,
+                    child: Row(
+                      children: [
+                        IconButton(
+                          icon: const Icon(Icons.keyboard_arrow_left,
+                              color: AppColors.appWhiteColor),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                        CircleAvatar(
+                          radius: ChatPageSizes.chatUserImageRadius,
+                          backgroundImage: AssetImage(
+                            ChatPageDataExample
+                                .chatPreviewData[widget.userId].image,
                           ),
                         ),
-                      ),
-                      bottom: PreferredSize(
-                        preferredSize: const Size(
-                          double.infinity,
-                          ChatPageSizes.littleAppbarBottomHeight,
+                        const Spacer(),
+                        IconButton(
+                          icon: const Icon(Icons.more_vert,
+                              color: AppColors.appWhiteColor),
+                          onPressed: () {},
                         ),
-                        child: Container(
-                          decoration: const BoxDecoration(
-                            color: AppColors.basicBackgroundColor,
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(8.0),
-                              topRight: Radius.circular(8.0),
-                            ),
-                          ),
-                          height: ChatPageSizes.littleAppbarBottomHeight,
-                        ),
-                      ),
+                      ],
                     ),
-                    SliverList.list(
-                      children: chat,
-                    ),
-                    if (isZero)
-                      const SliverToBoxAdapter(
-                        child: Align(
-                          alignment: Alignment.topCenter,
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                              top: ChatPagePaddings.haveNoMessagesTop,
-                            ),
-                            child: Text(
-                              AppStrings.startMessaging,
-                              style: AppTextStyles.haveNoMessages,
-                            ),
-                          ),
-                        ),
-                      ),
-                  ],
+                  ),
+                ),
+              Expanded(
+                child: SizedBox(
+                  child: ListView.builder(
+                    itemCount: messages.length,
+                    reverse: true,
+                    itemBuilder: (context, index) => messages[index],
+                  ),
                 ),
               ),
               const ChatBottom(),

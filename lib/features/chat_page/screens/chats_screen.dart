@@ -105,6 +105,7 @@ class _ChatsScreenState extends State<ChatsScreen> {
           slivers: [
             SliverAppBar(
               backgroundColor: AppColors.basicBackgroundColor,
+              surfaceTintColor: Colors.transparent,
               pinned: true,
               floating: false,
               toolbarHeight: 0,

@@ -14,4 +14,6 @@ class ChatPagePaddings {
   static const double adItemVertical = 16;
   static const double adItemGlassesBottom = 10;
   static const double adItemGlassesLeft = 4;
+  static const double topSafeView = 45;
+  static const double temptationTop = 47;
 }
