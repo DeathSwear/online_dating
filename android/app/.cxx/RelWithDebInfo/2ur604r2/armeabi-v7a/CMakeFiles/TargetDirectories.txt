@@ -1,0 +1,2 @@
+C:/OtherFiles/Projects/testovoe/onlinedating/online_dating/android/app/.cxx/RelWithDebInfo/2ur604r2/armeabi-v7a/CMakeFiles/edit_cache.dir
+C:/OtherFiles/Projects/testovoe/onlinedating/online_dating/android/app/.cxx/RelWithDebInfo/2ur604r2/armeabi-v7a/CMakeFiles/rebuild_cache.dir
